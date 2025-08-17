@@ -5,7 +5,7 @@
 
 int main()
 {
-	struct UNNECESSARY_DYNAMIC_ARRAY v;
+	UNNECESSARY_T_DYNAMIC_ARRAY v;
 
 	UNNECESSARY_DYNAMIC_ARRAY_create(&v);
 

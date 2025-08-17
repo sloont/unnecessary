@@ -13,16 +13,17 @@ extern const int UNNECESSARY_DYNAMIC_ARRAY_DEFAULT_CREATE_CAPACITY = 4;
 
 // manually changing any field on this struct can produce undefined behavior
 // pls don't
-struct UNNECESSARY_DYNAMIC_ARRAY
+typedef struct UNNECESSARY_DYNAMIC_ARRAY
 {
     void **things;
     // 64 bit - no reason not to have these as ints
     // if ever a 32 bit version, they could conditionally be shorts
     int size;
     int capacity;
-};
+} UNNECESSARY_T_DYNAMIC_ARRAY;
 
-inline void UNNECESSARY_DYNAMIC_ARRAY_create(struct UNNECESSARY_DYNAMIC_ARRAY *vector)
+
+inline void UNNECESSARY_DYNAMIC_ARRAY_create(UNNECESSARY_T_DYNAMIC_ARRAY *vector)
 {
     vector->size = 0;
     vector->capacity = UNNECESSARY_DYNAMIC_ARRAY_DEFAULT_CREATE_CAPACITY;
@@ -31,23 +32,23 @@ inline void UNNECESSARY_DYNAMIC_ARRAY_create(struct UNNECESSARY_DYNAMIC_ARRAY *v
     );
 }
 
-inline void UNNECESSARY_DYNAMIC_ARRAY_free(const struct UNNECESSARY_DYNAMIC_ARRAY *vector)
+inline void UNNECESSARY_DYNAMIC_ARRAY_free(const UNNECESSARY_T_DYNAMIC_ARRAY *vector)
 {
     free(vector->things);
 }
 
-inline int UNNECESSARY_DYNAMIC_ARRAY_size(const struct UNNECESSARY_DYNAMIC_ARRAY *vector)
+inline int UNNECESSARY_DYNAMIC_ARRAY_size(const UNNECESSARY_T_DYNAMIC_ARRAY *vector)
 {
     return vector->size;
 }
 
-inline int UNNECESSARY_DYNAMIC_ARRAY_capacity(const struct UNNECESSARY_DYNAMIC_ARRAY *vector)
+inline int UNNECESSARY_DYNAMIC_ARRAY_capacity(const UNNECESSARY_T_DYNAMIC_ARRAY *vector)
 {
     return vector->capacity;
 }
 
 inline void UNNECESSARY_DYNAMIC_ARRAY_resize(
-    struct UNNECESSARY_DYNAMIC_ARRAY *vector,
+    UNNECESSARY_T_DYNAMIC_ARRAY *vector,
     const int capacity
 )
 {
@@ -64,7 +65,7 @@ inline void UNNECESSARY_DYNAMIC_ARRAY_resize(
 }
 
 inline void UNNECESSARY_DYNAMIC_ARRAY_add(
-    struct UNNECESSARY_DYNAMIC_ARRAY *vector,
+    UNNECESSARY_T_DYNAMIC_ARRAY *vector,
     void *thing
 )
 {
@@ -75,7 +76,7 @@ inline void UNNECESSARY_DYNAMIC_ARRAY_add(
 }
 
 inline void UNNECESSARY_DYNAMIC_ARRAY_set(
-    const struct UNNECESSARY_DYNAMIC_ARRAY *vector,
+    const UNNECESSARY_T_DYNAMIC_ARRAY *vector,
     const int index,
     void * thing
 )
@@ -88,7 +89,7 @@ inline void UNNECESSARY_DYNAMIC_ARRAY_set(
 }
 
 inline void *UNNECESSARY_DYNAMIC_ARRAY_get(
-    const struct UNNECESSARY_DYNAMIC_ARRAY *vector,
+    const UNNECESSARY_T_DYNAMIC_ARRAY *vector,
     const int index
 )
 {
@@ -102,7 +103,7 @@ inline void *UNNECESSARY_DYNAMIC_ARRAY_get(
 }
 
 inline void UNNECESSARY_DYNAMIC_ARRAY_delete(
-    struct UNNECESSARY_DYNAMIC_ARRAY *vector,
+    UNNECESSARY_T_DYNAMIC_ARRAY *vector,
     const int index
 )
 {
