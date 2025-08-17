@@ -1,5 +1,5 @@
-#ifndef UNNECESSARY_LIBRARY_H
-#define UNNECESSARY_LIBRARY_H
+#ifndef UNNECESSARY_DYNAMIC_ARRAY_H
+#define UNNECESSARY_DYNAMIC_ARRAY_H
 #include <stdlib.h>
 
 /*
@@ -9,11 +9,14 @@
  * https://github.com/eddmann
  */
 
-extern const int UNNECESSARY_VECTOR_DEFAULT_CREATE_CAPACITY = 4;
+extern const int UNNECESSARY_DYNAMIC_ARRAY_DEFAULT_CREATE_CAPACITY = 4;
 
+// todo
+// consider renaming this... maybe `dynamic_array`
+// it's inevitable that this library will have math and vec2/vec3 structs
 // manually changing any field on this struct can produce undefined behavior
 // pls don't
-struct UNNECESSARY_VECTOR
+struct UNNECESSARY_DYNAMIC_ARRAY
 {
     void **things;
     // 64 bit - no reason not to have these as ints
@@ -22,32 +25,32 @@ struct UNNECESSARY_VECTOR
     int capacity;
 };
 
-inline void UNNECESSARY_VECTOR_create(struct UNNECESSARY_VECTOR *vector)
+inline void UNNECESSARY_DYNAMIC_ARRAY_create(struct UNNECESSARY_DYNAMIC_ARRAY *vector)
 {
     vector->size = 0;
-    vector->capacity = UNNECESSARY_VECTOR_DEFAULT_CREATE_CAPACITY;
+    vector->capacity = UNNECESSARY_DYNAMIC_ARRAY_DEFAULT_CREATE_CAPACITY;
     vector->things = malloc(
         sizeof(void *) * vector->capacity
     );
 }
 
-inline void UNNECESSARY_VECTOR_free(const struct UNNECESSARY_VECTOR *vector)
+inline void UNNECESSARY_DYNAMIC_ARRAY_free(const struct UNNECESSARY_DYNAMIC_ARRAY *vector)
 {
     free(vector->things);
 }
 
-inline int UNNECESSARY_VECTOR_size(const struct UNNECESSARY_VECTOR *vector)
+inline int UNNECESSARY_DYNAMIC_ARRAY_size(const struct UNNECESSARY_DYNAMIC_ARRAY *vector)
 {
     return vector->size;
 }
 
-inline int UNNECESSARY_VECTOR_capacity(const struct UNNECESSARY_VECTOR *vector)
+inline int UNNECESSARY_DYNAMIC_ARRAY_capacity(const struct UNNECESSARY_DYNAMIC_ARRAY *vector)
 {
     return vector->capacity;
 }
 
-inline void UNNECESSARY_VECTOR_resize(
-    struct UNNECESSARY_VECTOR *vector,
+inline void UNNECESSARY_DYNAMIC_ARRAY_resize(
+    struct UNNECESSARY_DYNAMIC_ARRAY *vector,
     const int capacity
 )
 {
@@ -63,19 +66,19 @@ inline void UNNECESSARY_VECTOR_resize(
     }
 }
 
-inline void UNNECESSARY_VECTOR_add(
-    struct UNNECESSARY_VECTOR *vector,
+inline void UNNECESSARY_DYNAMIC_ARRAY_add(
+    struct UNNECESSARY_DYNAMIC_ARRAY *vector,
     void *thing
 )
 {
     if (vector->capacity == vector->size)
-        UNNECESSARY_VECTOR_resize(vector, vector->capacity * 2);
+        UNNECESSARY_DYNAMIC_ARRAY_resize(vector, vector->capacity * 2);
 
     vector->things[vector->size++] = thing;
 }
 
-inline void UNNECESSARY_VECTOR_set(
-    const struct UNNECESSARY_VECTOR *vector,
+inline void UNNECESSARY_DYNAMIC_ARRAY_set(
+    const struct UNNECESSARY_DYNAMIC_ARRAY *vector,
     const int index,
     void * thing
 )
@@ -87,8 +90,8 @@ inline void UNNECESSARY_VECTOR_set(
         vector->things[index] = thing;
 }
 
-inline void *UNNECESSARY_VECTOR_get(
-    const struct UNNECESSARY_VECTOR *vector,
+inline void *UNNECESSARY_DYNAMIC_ARRAY_get(
+    const struct UNNECESSARY_DYNAMIC_ARRAY *vector,
     const int index
 )
 {
@@ -101,8 +104,8 @@ inline void *UNNECESSARY_VECTOR_get(
     return NULL;
 }
 
-inline void UNNECESSARY_VECTOR_delete(
-    struct UNNECESSARY_VECTOR *vector,
+inline void UNNECESSARY_DYNAMIC_ARRAY_delete(
+    struct UNNECESSARY_DYNAMIC_ARRAY *vector,
     const int index
 )
 {
@@ -128,6 +131,6 @@ inline void UNNECESSARY_VECTOR_delete(
          --vector->size > 0
         && vector->size == vector->capacity / 4
     )
-        UNNECESSARY_VECTOR_resize(vector, vector->capacity / 2);
+        UNNECESSARY_DYNAMIC_ARRAY_resize(vector, vector->capacity / 2);
 }
-#endif //UNNECESSARY_LIBRARY_H
+#endif //UNNECESSARY_DYNAMIC_ARRAY_H
