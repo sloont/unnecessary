@@ -11,9 +11,6 @@
 
 extern const int UNNECESSARY_DYNAMIC_ARRAY_DEFAULT_CREATE_CAPACITY = 4;
 
-// todo
-// consider renaming this... maybe `dynamic_array`
-// it's inevitable that this library will have math and vec2/vec3 structs
 // manually changing any field on this struct can produce undefined behavior
 // pls don't
 struct UNNECESSARY_DYNAMIC_ARRAY
