@@ -5,9 +5,29 @@
 
 int main()
 {
-	UNNECESSARY_T_DYNAMIC_ARRAY v;
+	UNNECESSARY_T_DYNAMIC_ARRAY *table = UNNECESSARY_HASH_TABLE_create();
+	UNNECESSARY_HASH_TABLE_length(&table);
+	UNNECESSARY_HASH_TABLE_get(&table, "asdf");
+	UNNECESSARY_HASH_TABLE_free(&table);
+	// free(&table);
 
-	UNNECESSARY_DYNAMIC_ARRAY_create(&v);
+	UNNECESSARY_T_LINKED_NODE *l = UNNECESSARY_LINKED_LIST_create();
+	UNNECESSARY_LINKED_LIST_push(&l, "1");
+	UNNECESSARY_LINKED_LIST_push(&l, "2");
+	UNNECESSARY_LINKED_LIST_push(&l, "3");
+	UNNECESSARY_LINKED_LIST_push(&l, "4");
+	printf(UNNECESSARY_LINKED_LIST_pop(&l));
+	printf(UNNECESSARY_LINKED_LIST_pop(&l));
+	printf(UNNECESSARY_LINKED_LIST_pop(&l));
+	printf(UNNECESSARY_LINKED_LIST_pop(&l));
+	// test what happens if we pass a reference to a pointer to NULL
+	UNNECESSARY_LINKED_LIST_pop(&l);
+
+	UNNECESSARY_LINKED_LIST_push(&l, "10");
+	// UNNECESSARY_LINKED_LIST_push(&l, (void *)1000); // VALGRIND leak 16 bytes
+	UNNECESSARY_LINKED_LIST_pop(&l);
+
+	UNNECESSARY_T_DYNAMIC_ARRAY *v = UNNECESSARY_DYNAMIC_ARRAY_create();
 
 	UNNECESSARY_DYNAMIC_ARRAY_add(&v, "a");
 	UNNECESSARY_DYNAMIC_ARRAY_add(&v, "ab");
@@ -45,6 +65,10 @@ int main()
 	assert(0 == strcmp("wvu", UNNECESSARY_DYNAMIC_ARRAY_get(&v, 1)));
 
 	UNNECESSARY_DYNAMIC_ARRAY_free(&v);
+
+	free(table);
+	free(l);
+	free(v);
 
 	return 0;
 }
