@@ -4,7 +4,7 @@
 
 /*
  * heavily inspired by the article at
- * https://eddmann.com/posts/implementing-a-dynamic-dynamic_array-array-in-c/
+ * https://eddmann.com/posts/implementing-a-dynamic-vector-array-in-c/
  * by
  * https://github.com/eddmann
  */
@@ -50,19 +50,19 @@ static int UNNECESSARY_DYNAMIC_ARRAY_capacity(UNNECESSARY_T_DYNAMIC_ARRAY **dyna
 }
 
 static void UNNECESSARY_DYNAMIC_ARRAY_resize(
-    UNNECESSARY_T_DYNAMIC_ARRAY *dynamic_array,
+    UNNECESSARY_T_DYNAMIC_ARRAY **dynamic_array,
     const int capacity
 )
 {
     void **things = realloc(
-        dynamic_array->things,
+        (*dynamic_array)->things,
         sizeof(void *) * capacity
     );
 
     if (things)
     {
-        dynamic_array->things = things;
-        dynamic_array->capacity = capacity;
+        (*dynamic_array)->things = things;
+        (*dynamic_array)->capacity = capacity;
     }
 }
 
@@ -72,7 +72,7 @@ static void UNNECESSARY_DYNAMIC_ARRAY_add(
 )
 {
     if ((*dynamic_array)->capacity == (*dynamic_array)->size)
-        UNNECESSARY_DYNAMIC_ARRAY_resize(*dynamic_array, (*dynamic_array)->capacity * 2);
+        UNNECESSARY_DYNAMIC_ARRAY_resize(dynamic_array, (*dynamic_array)->capacity * 2);
 
     (*dynamic_array)->things[(*dynamic_array)->size++] = thing;
 }
@@ -131,6 +131,6 @@ static void UNNECESSARY_DYNAMIC_ARRAY_delete(
          --(*dynamic_array)->size > 0
         && (*dynamic_array)->size == (*dynamic_array)->capacity / 4
     )
-        UNNECESSARY_DYNAMIC_ARRAY_resize(*dynamic_array, (*dynamic_array)->capacity / 2);
+        UNNECESSARY_DYNAMIC_ARRAY_resize(dynamic_array, (*dynamic_array)->capacity / 2);
 }
 #endif //UNNECESSARY_DYNAMIC_ARRAY_H
