@@ -9,7 +9,7 @@
  * https://github.com/eddmann
  */
 
-const int UNNECESSARY_DYNAMIC_ARRAY_DEFAULT_CREATE_CAPACITY = 4;
+const int UNNECESSARY_DEFAULT_DYNAMIC_ARRAY_CAPACITY = 4;
 
 // manually changing any field on this struct can produce undefined behavior
 // pls don't
@@ -27,7 +27,7 @@ static UNNECESSARY_T_DYNAMIC_ARRAY *UNNECESSARY_DYNAMIC_ARRAY_create()
 {
     UNNECESSARY_T_DYNAMIC_ARRAY *dynamic_array = malloc(sizeof(*dynamic_array));
     dynamic_array->size = 0;
-    dynamic_array->capacity = UNNECESSARY_DYNAMIC_ARRAY_DEFAULT_CREATE_CAPACITY;
+    dynamic_array->capacity = UNNECESSARY_DEFAULT_DYNAMIC_ARRAY_CAPACITY;
     // todo
     // zeroed memory is nice but is it really necessary?
     dynamic_array->things = calloc(dynamic_array->capacity, sizeof(void *));
