@@ -12,6 +12,8 @@ int main()
 	UNNECESSARY_T_LINKED_NODE *ll = UNNECESSARY_HASH_TABLE_get(&table, "fdas");
 	UNNECESSARY_LINKED_LIST_push(&ll, "asdfasdfasdf");
 	UNNECESSARY_HASH_TABLE_free(&table);
+	free(table);
+	table = NULL;
 
 	UNNECESSARY_T_LINKED_NODE *l = UNNECESSARY_LINKED_LIST_create();
 	UNNECESSARY_LINKED_LIST_push(&l, "1");
@@ -22,6 +24,8 @@ int main()
 	printf(UNNECESSARY_LINKED_LIST_pop(&l));
 	printf(UNNECESSARY_LINKED_LIST_pop(&l));
 	printf(UNNECESSARY_LINKED_LIST_pop(&l));
+	UNNECESSARY_LINKED_LIST_free(&l);
+	l = UNNECESSARY_LINKED_LIST_create();
 	// test what happens if we pass a reference to a pointer to NULL
 	UNNECESSARY_LINKED_LIST_pop(&l);
 
@@ -68,7 +72,6 @@ int main()
 
 	UNNECESSARY_DYNAMIC_ARRAY_free(&v);
 
-	free(table);
 	free(l);
 	free(v);
 

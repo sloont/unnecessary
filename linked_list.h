@@ -46,6 +46,29 @@ static void UNNECESSARY_LINKED_LIST_push(
 	iter->next = node;
 }
 
+static void UNNECESSARY_LINKED_LIST_free(UNNECESSARY_T_LINKED_NODE **list)
+{
+	if (!*list)
+	{
+		return;
+	}
+	UNNECESSARY_T_LINKED_NODE *node = *list;
+	if (!node->next)
+	{
+		free(*list);
+		return;
+	}
+	while (node->next)
+	{
+		(*list) = node->next;
+		free(node);
+		node = (*list);
+	}
+	free(*list);
+
+
+}
+
 static void *UNNECESSARY_LINKED_LIST_pop(UNNECESSARY_T_LINKED_NODE **list)
 {
 	// if the list points to NULL we should error

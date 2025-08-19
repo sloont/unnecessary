@@ -47,7 +47,7 @@ typedef struct UNNECESSARY_HASH_TABLE
 
 static UNNECESSARY_T_HASH_TABLE *UNNECESSARY_HASH_TABLE_create()
 {
-	UNNECESSARY_T_HASH_TABLE *table = malloc(sizeof(table));
+	UNNECESSARY_T_HASH_TABLE *table = malloc(sizeof(*table));
 	table->things = calloc(UNNECESSARY_DEFAULT_HASH_TABLE_CAPACITY, sizeof(*table->things));
 	table->size = 0;
 	table->capacity = UNNECESSARY_DEFAULT_HASH_TABLE_CAPACITY;
@@ -68,10 +68,11 @@ static void UNNECESSARY_HASH_TABLE_free(UNNECESSARY_T_HASH_TABLE **table)
 {
 	for (int i = 0; i < (*table)->capacity; i++)
 	{
-		const UNNECESSARY_T_HASH_BUCKET *bucket = &(*table)->things[i];
-		if (bucket)
+		UNNECESSARY_T_HASH_BUCKET *bucket = &(*table)->things[i];
+		if (bucket->key)
 		{
-			free((void *)bucket->key);
+			UNNECESSARY_LINKED_LIST_free(&bucket->value);
+			bucket->value = NULL;
 		}
 	}
 	free((*table)->things);
