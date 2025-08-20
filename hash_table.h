@@ -43,7 +43,7 @@ typedef struct UNNECESSARY_HASH_TABLE
 	UNNECESSARY_T_HASH_BUCKET *things;
 	int size;
 	int capacity;
-} UNNECESSARY_T_HASH_TABLE;;
+} UNNECESSARY_T_HASH_TABLE;
 
 static UNNECESSARY_T_HASH_TABLE *UNNECESSARY_HASH_TABLE_create()
 {
@@ -147,7 +147,7 @@ static int UNNECESSARY_HASH_TABLE_resize(UNNECESSARY_T_HASH_TABLE **table)
 	{
 		return 1;
 	}
-	UNNECESSARY_T_HASH_BUCKET *things = calloc(capacity, sizeof(things));
+	UNNECESSARY_T_HASH_BUCKET *things = calloc(capacity, sizeof(*things));
 	if (things == NULL)
 	{
 		return 2;
