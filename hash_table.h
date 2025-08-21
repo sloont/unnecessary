@@ -54,6 +54,8 @@ static UNNECESSARY_T_HASH_TABLE *UNNECESSARY_HASH_TABLE_create()
 	return table;
 }
 
+
+
 static int UNNECESSARY_HASH_TABLE_size(UNNECESSARY_T_HASH_TABLE **table)
 {
 	return (*table)->size;

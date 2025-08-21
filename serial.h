@@ -92,36 +92,28 @@ static void UNNECESSARY_SERIAL_FILE_write_recursive(
 		const UNNECESSARY_T_SERIAL_LINK *ch_structure = UNNECESSARY_DYNAMIC_ARRAY_get(&structure->children, i);
 		if (0 == UNNECESSARY_DYNAMIC_ARRAY_size(&ch_structure->structure->children))
 		{
-			fwrite(ch_structure->name, strlen(ch_structure->name), 1, file);
-			fwrite(" = ", 3, 1, file);
+			fprintf_s(file, ch_structure->name);
+			fprintf_s(file, " = ");
 			size_t n_properties = UNNECESSARY_SERIAL_STRUCTURE_propertyCount(ch_structure->structure);
 			for (size_t j = 0; j < n_properties; j++)
 			{
 				const char *string = UNNECESSARY_SERIAL_getString(ch_structure->structure, j);
 				if (NULL == strchr(string, ','))
 				{
-					fwrite("\"", 1, 1, file);
-					fwrite(string, strlen(string), 1, file);
-					fwrite("\"", 1, 1, file);
+					fprintf_s(file, "\"%s\"", string);
 				}
 				else
 				{
-					fwrite(string, strlen(string), 1, file);
-				}
-				if (n_properties-- > 1)
-				{
-					fwrite(",", 1, 1, file);
+					fprintf_s(file, "%s%s", string, n_properties-- > 1 ? ", " : "");
 				}
 			}
-			fwrite("\n", 1, 1, file);
+			fprintf_s(file, "\n");
 		}
 		else
 		{
-			fwrite("\n", 1, 1, file);
-			fwrite("\n{", 2, 1, file);
-			fwrite(ch_structure->name, strlen(ch_structure->name), 1, file);
+			fprintf_s(file, "\n\n{%s", ch_structure->name);
 			UNNECESSARY_SERIAL_FILE_write_recursive(ch_structure->structure, file);
-			fwrite("}\n\n", 3, 1, file);
+			fprintf_s(file, "}\n\n");
 		}
 	}
 }
@@ -135,9 +127,25 @@ static int UNNECESSARY_SERIAL_FILE_write(
 	const errno_t err = fopen_s(&file, filename, "w+");
 	if (err != 0)
 	{
-		perror("failed");
+		perror("write failed");
 	};
 	UNNECESSARY_SERIAL_FILE_write_recursive(structure, file);
+	fclose(file);
+	return 0;
+}
+
+static int UNNECESSARY_SERIAL_FILE_read(
+	UNNECESSARY_T_SERIAL_STRUCTURE *structure,
+	const char *filename
+)
+{
+	FILE *file;
+	const errno_t err = fopen_s(&file, filename, "r");
+	if (err != 0)
+	{
+		perror("read failed");
+	}
+
 	fclose(file);
 	return 0;
 }
