@@ -9,7 +9,7 @@
 #include "dynamic_array.h"
 #include "linked_list.h"
 #include "hash_table.h"
-// #include "serial.h"
+#include "serial.h"
 // library
 
 #endif //UNNECESSARY_H
