@@ -7,6 +7,7 @@ int main()
 {
 	UNNECESSARY_T_SERIAL_STRUCTURE *t = UNNECESSARY_SERIAL_STRUCTURE_create();
 	UNNECESSARY_SERIAL_FILE_write(t, "game.sav");
+	free(t);
 	UNNECESSARY_T_HASH_TABLE *table = UNNECESSARY_HASH_TABLE_create();
 	UNNECESSARY_HASH_TABLE_length(&table);
 	UNNECESSARY_HASH_TABLE_get(&table, "asdf");

@@ -35,7 +35,7 @@ const int UNNECESSARY_DEFAULT_HASH_TABLE_CAPACITY = 16;
 typedef struct UNNECESSARY_HASH_BUCKET
 {
 	const char *key;
-	UNNECESSARY_T_LINKED_NODE *value;
+	void *value;
 } UNNECESSARY_T_HASH_BUCKET;
 
 typedef struct UNNECESSARY_HASH_TABLE
@@ -73,7 +73,6 @@ static void UNNECESSARY_HASH_TABLE_free(UNNECESSARY_T_HASH_TABLE **table)
 		UNNECESSARY_T_HASH_BUCKET *bucket = &(*table)->things[i];
 		if (bucket->key)
 		{
-			UNNECESSARY_LINKED_LIST_free(&bucket->value);
 			bucket->value = NULL;
 		}
 	}
@@ -176,7 +175,7 @@ static int UNNECESSARY_HASH_TABLE_resize(UNNECESSARY_T_HASH_TABLE **table)
 static const char *UNNECESSARY_HASH_TABLE_set(
 	UNNECESSARY_T_HASH_TABLE **table,
 	const char *key,
-	UNNECESSARY_T_LINKED_NODE *value
+	void *value
 )
 {
 	if (value == NULL)

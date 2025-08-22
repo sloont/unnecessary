@@ -75,14 +75,6 @@ static void UNNECESSARY_LINKED_LIST_free(UNNECESSARY_T_LINKED_NODE **list)
 	}
 	free(*list);
 }
-static void *UNNECESSARY_LINKED_LIST_peek(UNNECESSARY_T_LINKED_NODE *list)
-{
-	if (list == NULL)
-	{
-		return NULL;
-	}
-	return
-}
 
 static void *UNNECESSARY_LINKED_LIST_pop(UNNECESSARY_T_LINKED_NODE **list)
 {
@@ -154,5 +146,14 @@ static void *UNNECESSARY_STACK_pop(UNNECESSARY_T_LINKED_NODE **stack)
 	*stack = (*stack)->next;
 	free(copy);
 	return thing;
+}
+
+static void *UNNECESSARY_STACK_peek(const UNNECESSARY_T_LINKED_NODE **list)
+{
+	if (*list == NULL)
+	{
+		return NULL;
+	}
+	return (*list)->thing;
 }
 #endif //LINKED_LIST_H
