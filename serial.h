@@ -18,7 +18,7 @@ typedef struct UNNECESSARY_SERIAL_STRUCTURE_LINK
 
 static UNNECESSARY_T_SERIAL_STRUCTURE *UNNECESSARY_SERIAL_STRUCTURE_create()
 {
-	UNNECESSARY_T_SERIAL_STRUCTURE *serial = malloc(sizeof(UNNECESSARY_T_SERIAL_STRUCTURE));
+	UNNECESSARY_T_SERIAL_STRUCTURE *serial = malloc(sizeof(*serial));
 	serial->properties = UNNECESSARY_DYNAMIC_ARRAY_create();
 	serial->children = UNNECESSARY_DYNAMIC_ARRAY_create();
 	serial->map = UNNECESSARY_HASH_TABLE_create();
@@ -135,7 +135,7 @@ static int UNNECESSARY_SERIAL_FILE_write(
 }
 
 static int UNNECESSARY_SERIAL_FILE_read(
-	UNNECESSARY_T_SERIAL_STRUCTURE *structure,
+	UNNECESSARY_T_SERIAL_STRUCTURE **structure,
 	const char *filename
 )
 {
@@ -150,7 +150,7 @@ static int UNNECESSARY_SERIAL_FILE_read(
 	char g_value[64] = "";
 	char buf[64];
 	UNNECESSARY_T_LINKED_NODE *stack = UNNECESSARY_STACK_create();
-	UNNECESSARY_STACK_push(&stack, structure);
+	UNNECESSARY_STACK_push(&stack, *structure);
 	while (fgets(buf, 64, file))
 	{
 		const char *found = strchr(buf, '=');
@@ -159,14 +159,14 @@ static int UNNECESSARY_SERIAL_FILE_read(
 			if ('{' == buf[0])
 			{
 				UNNECESSARY_T_SERIAL_STRUCTURE *top = UNNECESSARY_STACK_peek(&stack);
-				if (UNNECESSARY_SERIAL_STRUCTURE_hasProperty(structure, g_key))
+				if (UNNECESSARY_SERIAL_STRUCTURE_hasProperty(*structure, g_key))
 				{
 					UNNECESSARY_HASH_TABLE_set(&top->map, g_key, (void *)UNNECESSARY_DYNAMIC_ARRAY_size(&top->children));
 					UNNECESSARY_T_SERIAL_LINK *link = malloc(sizeof(*link));
 					link->name = g_key;
 					link->structure = UNNECESSARY_SERIAL_STRUCTURE_create();
-					UNNECESSARY_DYNAMIC_ARRAY_add(&structure->children, link);
-					UNNECESSARY_T_SERIAL_LINK *child = UNNECESSARY_DYNAMIC_ARRAY_get(&structure->children, (int)UNNECESSARY_HASH_TABLE_get(&structure->map, g_key));
+					UNNECESSARY_DYNAMIC_ARRAY_add(&(*structure)->children, link);
+					UNNECESSARY_T_SERIAL_LINK *child = UNNECESSARY_DYNAMIC_ARRAY_get(&(*structure)->children, (int)UNNECESSARY_HASH_TABLE_get(&(*structure)->map, g_key));
 					if (child == NULL)
 					{
 						return 4;
@@ -226,15 +226,15 @@ static int UNNECESSARY_SERIAL_FILE_read(
 					{
 						if (',' == c)
 						{
-							if (UNNECESSARY_SERIAL_STRUCTURE_hasProperty(structure, g_key))
+							if (UNNECESSARY_SERIAL_STRUCTURE_hasProperty(*structure, g_key))
 							{
 								UNNECESSARY_T_SERIAL_STRUCTURE *top = UNNECESSARY_STACK_peek(&stack);
 								UNNECESSARY_HASH_TABLE_set(&top->map, g_key, (void *)UNNECESSARY_DYNAMIC_ARRAY_size(&top->children));
 								UNNECESSARY_T_SERIAL_LINK *link = malloc(sizeof(*link));
 								link->name = g_key;
 								link->structure = UNNECESSARY_SERIAL_STRUCTURE_create();
-								UNNECESSARY_DYNAMIC_ARRAY_add(&structure->children, link);
-								const UNNECESSARY_T_SERIAL_LINK *child = UNNECESSARY_DYNAMIC_ARRAY_get(&structure->children, (int)UNNECESSARY_HASH_TABLE_get(&structure->map, g_key));
+								UNNECESSARY_DYNAMIC_ARRAY_add(&(*structure)->children, link);
+								const UNNECESSARY_T_SERIAL_LINK *child = UNNECESSARY_DYNAMIC_ARRAY_get(&(*structure)->children, (int)UNNECESSARY_HASH_TABLE_get(&(*structure)->map, g_key));
 								if (child == NULL)
 								{
 									return 6;
@@ -255,15 +255,15 @@ static int UNNECESSARY_SERIAL_FILE_read(
 			}
 			if (0 != l_token)
 			{
-				if (UNNECESSARY_SERIAL_STRUCTURE_hasProperty(structure, g_key))
+				if (UNNECESSARY_SERIAL_STRUCTURE_hasProperty(*structure, g_key))
 				{
 					UNNECESSARY_T_SERIAL_STRUCTURE *top = UNNECESSARY_STACK_peek(&stack);
 					UNNECESSARY_HASH_TABLE_set(&top->map, g_key, (void *)UNNECESSARY_DYNAMIC_ARRAY_size(&top->children));
 					UNNECESSARY_T_SERIAL_LINK *link = malloc(sizeof(*link));
 					link->name = g_key;
 					link->structure = UNNECESSARY_SERIAL_STRUCTURE_create();
-					UNNECESSARY_DYNAMIC_ARRAY_add(&structure->children, link);
-					UNNECESSARY_T_SERIAL_LINK *child = UNNECESSARY_DYNAMIC_ARRAY_get(&structure->children, (int)UNNECESSARY_HASH_TABLE_get(&structure->map, g_key));
+					UNNECESSARY_DYNAMIC_ARRAY_add(&(*structure)->children, link);
+					UNNECESSARY_T_SERIAL_LINK *child = UNNECESSARY_DYNAMIC_ARRAY_get(&(*structure)->children, (int)UNNECESSARY_HASH_TABLE_get(&(*structure)->map, g_key));
 					if (child == NULL)
 					{
 						return 6;
