@@ -163,9 +163,14 @@ static int UNNECESSARY_SERIAL_FILE_read(
 				{
 					UNNECESSARY_HASH_TABLE_set(&top->map, g_key, (void *)UNNECESSARY_DYNAMIC_ARRAY_size(&top->children));
 					UNNECESSARY_T_SERIAL_LINK *link = malloc(sizeof(*link));
+					if (NULL == link)
+					{
+						perror("new link malloc failed");
+						return 7;
+					}
 					link->name = g_key;
 					link->structure = UNNECESSARY_SERIAL_STRUCTURE_create();
-					UNNECESSARY_DYNAMIC_ARRAY_add(&(*structure)->children, link);
+					UNNECESSARY_DYNAMIC_ARRAY_add(&(*structure)->children, &link);
 					UNNECESSARY_T_SERIAL_LINK *child = UNNECESSARY_DYNAMIC_ARRAY_get(&(*structure)->children, (int)UNNECESSARY_HASH_TABLE_get(&(*structure)->map, g_key));
 					if (child == NULL)
 					{
@@ -278,6 +283,19 @@ static int UNNECESSARY_SERIAL_FILE_read(
 		}
 	}
 	fclose(file);
+	return 0;
+}
+
+static int UNNECESSARY_SERIAL_STRUCTURE_free(UNNECESSARY_T_SERIAL_STRUCTURE **structure)
+{
+	for (int i = 0; i < UNNECESSARY_DYNAMIC_ARRAY_size(&(*structure)->children); i++)
+	{	UNNECESSARY_T_SERIAL_LINK *link = UNNECESSARY_DYNAMIC_ARRAY_get(&(*structure)->children, i);
+		UNNECESSARY_SERIAL_STRUCTURE_free(&link->structure);
+		free(link);
+	}
+	UNNECESSARY_DYNAMIC_ARRAY_free(&(*structure)->properties);
+	UNNECESSARY_HASH_TABLE_free(&(*structure)->map);
+	free(*structure);
 	return 0;
 }
 
